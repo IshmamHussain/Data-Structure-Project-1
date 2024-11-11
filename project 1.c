@@ -4,7 +4,7 @@
 #include <ctype.h>
 
 #define MAX_SEATS 50
-#define MAX_RESERVATIONS 100
+#define MAX_RESERVATIONS 150
 
 struct airline {
     char passport[50];
