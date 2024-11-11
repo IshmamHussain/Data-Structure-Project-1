@@ -269,11 +269,13 @@ void check_seat_status(char seat_prefix, int seat_num) {
 void cancel() {
     char passport[50];
     printf("\n\n Enter passport number to delete record?: ");
+    fflush(stdin);
     fgets(passport, sizeof(passport), stdin);
-    remove_newline(passport);
+    
 
     for (int i = 0; i < reservation_count; i++) {
         if (strcmp(reservations[i].passport, passport) == 0) {
+            // Seat found, proceed to cancel the booking
             switch (reservations[i].seat_class) {
                 case 'Z':
                     seats_z[reservations[i].seat_num] = 0;
@@ -287,16 +289,18 @@ void cancel() {
             }
             total_revenue -= reservations[i].price;
 
+            // Shift the remaining reservations to fill the gap
             for (int j = i; j < reservation_count - 1; j++) {
                 reservations[j] = reservations[j + 1];
             }
             reservation_count--;
-            printf("Booking has been deleted");
+            printf("Booking has been deleted.\n");
             return;
         }
     }
-    printf("Passport number is incorrect, please check your passport.");
+    printf("Passport number is incorrect, please check your passport.\n");
 }
+
 
 void display() {
     if (reservation_count == 0) {
