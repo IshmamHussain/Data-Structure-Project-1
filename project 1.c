@@ -54,7 +54,7 @@ int main() {
         printf("\n\n\t\t 7. EXIT");
         printf("\n\n\t\t Enter your choice :");
 
-        scanf("%d", &choice); fflush(stdin);
+        scanf("%d", &choice);
         system("cls");
         switch (choice) {
             case 1:
@@ -76,7 +76,6 @@ int main() {
                 scanf(" %c", &seat_prefix);
                 printf("Enter seat number to check status (1-50): ");
                 scanf("%d", &seat_num);
-                fflush(stdin);
                 check_seat_status(seat_prefix, seat_num);
                 break;
             }
@@ -106,24 +105,24 @@ void details(struct airline *reservation) {
     printf("\n\t Enter your passport number: ");
     fgets(reservation->passport, sizeof(reservation->passport), stdin);
     remove_newline(reservation->passport);
-    fflush(stdin);
+    
 
     printf("\n\t Enter your name: ");
     fgets(reservation->name, sizeof(reservation->name), stdin);
     remove_newline(reservation->name);
-    fflush(stdin);
+    
 
     char email_prefix[50];
     printf("\n\t Enter your email address (without @gmail.com): ");
     fgets(email_prefix, sizeof(email_prefix), stdin);
     remove_newline(email_prefix);
     snprintf(reservation->email, sizeof(reservation->email), "%s@gmail.com", email_prefix);
-    fflush(stdin);
+    
 
     printf("\n\t Enter the Destination: ");
     fgets(reservation->destination, sizeof(reservation->destination), stdin);
     remove_newline(reservation->destination);
-    fflush(stdin);
+    
 
     printf("\n\t Seat Class Options:");
     printf("\n\t - Economy (Y): $60");
@@ -134,7 +133,7 @@ void details(struct airline *reservation) {
     scanf(" %c", &reservation->seat_class);
     reservation->seat_class = toupper(reservation->seat_class);
     reservation->price = get_price(reservation->seat_class);
-    fflush(stdin);
+   
 }
 
 int get_price(char seat_class) {
@@ -210,6 +209,7 @@ void reserve() {
         printf("\n\t Price: $%d\n", reservations[reservation_count].price);
 
         reservation_count++;
+        fflush(stdin);
     }
 }
 
