@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
 #include <string.h>
-#include <Windows.h>
 #include <ctype.h>
+
+#define MAX_SEATS 50
+#define MAX_RESERVATIONS 100
 
 struct airline {
     char passport[50];
@@ -13,15 +14,15 @@ struct airline {
     char email[50];
     char seat_class;
     int price;
-    struct airline *following;
-} *begin, *stream;
+};
 
-struct airline *dummy;
+struct airline reservations[MAX_RESERVATIONS];
+int reservation_count = 0;
 int total_revenue = 0;
 
-int seats_z[51] = {0};
-int seats_j[51] = {0};
-int seats_y[51] = {0};
+int seats_z[MAX_SEATS + 1] = {0};  // First class seats
+int seats_j[MAX_SEATS + 1] = {0};  // Business class seats
+int seats_y[MAX_SEATS + 1] = {0};  // Economy seats
 
 void details(struct airline *reservation);
 void reserve();
@@ -32,10 +33,10 @@ void check_seat_status(char seat_prefix, int seat_num);
 void display_revenue();
 int get_price(char seat_class);
 int is_seat_taken(char seat_prefix, int seat_num);
+void remove_newline(char *str);
 
 int main() {
     int choice;
-    begin = stream = NULL;
     do {
         printf("\n\n\t\t ******************************************************************************************");
         printf("\n\n\t\t          __|__                                                     __|__ \n");
@@ -136,7 +137,6 @@ void details(struct airline *reservation) {
     fflush(stdin);
 }
 
-
 int get_price(char seat_class) {
     switch (seat_class) {
         case 'Y': return 60;
@@ -170,21 +170,23 @@ void reserve() {
     fflush(stdin);
 
     for (int i = 0; i < num_seats; i++) {
-        struct airline *new_reservation = (struct airline *)malloc(sizeof(struct airline));
+        if (reservation_count >= MAX_RESERVATIONS) {
+            printf("\nCannot reserve more seats; reservation list is full.\n");
+            return;
+        }
 
-        details(new_reservation);
+        details(&reservations[reservation_count]);
         
-        seat_prefix = new_reservation->seat_class;
-        for (seat_num = 1; seat_num <= 50; seat_num++) {
+        seat_prefix = reservations[reservation_count].seat_class;
+        for (seat_num = 1; seat_num <= MAX_SEATS; seat_num++) {
             if (!is_seat_taken(seat_prefix, seat_num)) {
-                new_reservation->seat_num = seat_num;
+                reservations[reservation_count].seat_num = seat_num;
                 break;
             }
         }
 
-        if (seat_num > 50) {
+        if (seat_num > MAX_SEATS) {
             printf("\nNo available seats in %c class for reservation %d.\n", seat_prefix, i + 1);
-            free(new_reservation);
             continue;
         }
 
@@ -200,23 +202,14 @@ void reserve() {
                 break;
         }
 
-        new_reservation->following = NULL;
-        if (begin == NULL) {
-            begin = new_reservation;
-        } else {
-            stream = begin;
-            while (stream->following) {
-                stream = stream->following;
-            }
-            stream->following = new_reservation;
-        }
-
-        total_revenue += new_reservation->price;
+        total_revenue += reservations[reservation_count].price;
 
         printf("\n\t Seat booking successful for reservation %d!", i + 1);
-        printf("\n\t Seat: %c-%d", seat_prefix, new_reservation->seat_num);
-        printf("\n\t Class: %c", new_reservation->seat_class);
-        printf("\n\t Price: $%d\n", new_reservation->price);
+        printf("\n\t Seat: %c-%d", seat_prefix, reservations[reservation_count].seat_num);
+        printf("\n\t Class: %c", reservations[reservation_count].seat_class);
+        printf("\n\t Price: $%d\n", reservations[reservation_count].price);
+
+        reservation_count++;
     }
 }
 
@@ -224,21 +217,21 @@ void show_available_seats() {
     printf("\nAvailable seats:");
 
     printf("\nFirst Class (Z):");
-    for (int i = 1; i <= 50; i++) {
+    for (int i = 1; i <= MAX_SEATS; i++) {
         if (!seats_z[i]) {
             printf(" Z-%d", i);
         }
     }
 
     printf("\nBusiness Class (J):");
-    for (int i = 1; i <= 50; i++) {
+    for (int i = 1; i <= MAX_SEATS; i++) {
         if (!seats_j[i]) {
             printf(" J-%d", i);
         }
     }
 
     printf("\nEconomy Class (Y):");
-    for (int i = 1; i <= 50; i++) {
+    for (int i = 1; i <= MAX_SEATS; i++) {
         if (!seats_y[i]) {
             printf(" Y-%d", i);
         }
@@ -248,7 +241,7 @@ void show_available_seats() {
 
 void check_seat_status(char seat_prefix, int seat_num) {
     int taken;
-    seat_prefix = toupper(seat_prefix); // Convert input to uppercase
+    seat_prefix = toupper(seat_prefix);
     switch (seat_prefix) {
         case 'Z':
             taken = seats_z[seat_num];
@@ -263,88 +256,63 @@ void check_seat_status(char seat_prefix, int seat_num) {
             printf("\nInvalid seat class!");
             return;
     }
-    if (seat_num >= 1 && seat_num <= 50) {
+    if (seat_num >= 1 && seat_num <= MAX_SEATS) {
         if (taken)
             printf("\nSeat %c-%d is already reserved.", seat_prefix, seat_num);
         else
             printf("\nSeat %c-%d is available.", seat_prefix, seat_num);
     } else {
-        printf("\nInvalid seat number! Please enter a number between 1 and 50.");
+        printf("\nInvalid seat number! Please enter a number between 1 and %d.", MAX_SEATS);
     }
 }
 
 void cancel() {
-    stream = begin;
-    system("cls");
-    char passport[6];
+    char passport[50];
     printf("\n\n Enter passport number to delete record?: ");
     fgets(passport, sizeof(passport), stdin);
     remove_newline(passport);
 
-    if (strcmp(begin->passport, passport) == 0) {
-        dummy = begin;
-        switch (dummy->seat_class) {
-            case 'Z':
-                seats_z[dummy->seat_num] = 0;
-                break;
-            case 'J':
-                seats_j[dummy->seat_num] = 0;
-                break;
-            case 'Y':
-                seats_y[dummy->seat_num] = 0;
-                break;
-        }
-        begin = begin->following;
-        total_revenue -= dummy->price;
-        free(dummy);
-        printf("Booking has been deleted");
-        Sleep(800);
-        return;
-    }
-    while (stream->following) {
-        if (strcmp(stream->following->passport, passport) == 0) {
-            dummy = stream->following;
-            switch (dummy->seat_class) {
+    for (int i = 0; i < reservation_count; i++) {
+        if (strcmp(reservations[i].passport, passport) == 0) {
+            switch (reservations[i].seat_class) {
                 case 'Z':
-                    seats_z[dummy->seat_num] = 0;
+                    seats_z[reservations[i].seat_num] = 0;
                     break;
                 case 'J':
-                    seats_j[dummy->seat_num] = 0;
+                    seats_j[reservations[i].seat_num] = 0;
                     break;
                 case 'Y':
-                    seats_y[dummy->seat_num] = 0;
+                    seats_y[reservations[i].seat_num] = 0;
                     break;
             }
-            stream->following = stream->following->following;
-            total_revenue -= dummy->price;
-            free(dummy);
+            total_revenue -= reservations[i].price;
+
+            for (int j = i; j < reservation_count - 1; j++) {
+                reservations[j] = reservations[j + 1];
+            }
+            reservation_count--;
             printf("Booking has been deleted");
-            getch();
-            Sleep(800);
             return;
         }
-        stream = stream->following;
     }
     printf("Passport number is incorrect, please check your passport.");
 }
 
 void display() {
-    if (begin == 0) {
+    if (reservation_count == 0) {
         printf("\n\n\t No reservations yet.\n");
         return;
     }
     
-    stream = begin;
-    while (stream != 0) {
-        printf("\n   Passport Number : %s", stream->passport);
-        printf("\n   Name :            %s", stream->name);
-        printf("\n   Email Address:    %s", stream->email);
-        printf("\n   Seat number:      %c-%d", stream->seat_class, stream->seat_num);
-        printf("\n   Destination:      %s", stream->destination);
-        printf("\n   Seat Class:       %c", stream->seat_class);
-        printf("\n   Price:           $%d", stream->price);
+    for (int i = 0; i < reservation_count; i++) {
+        printf("\n   Passport Number : %s", reservations[i].passport);
+        printf("\n   Name :            %s", reservations[i].name);
+        printf("\n   Email Address:    %s", reservations[i].email);
+        printf("\n   Seat number:      %c-%d", reservations[i].seat_class, reservations[i].seat_num);
+        printf("\n   Destination:      %s", reservations[i].destination);
+        printf("\n   Seat Class:       %c", reservations[i].seat_class);
+        printf("\n   Price:           $%d", reservations[i].price);
         printf("\n\n++=====================================================++");
-        stream = stream->following;
     }
 }
 
