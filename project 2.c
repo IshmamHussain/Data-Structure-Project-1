@@ -6,11 +6,11 @@
 #include <ctype.h>
 
 struct airline {
-    char passport[6];
-    char name[15];
-    char destination[15];
+    char passport[50];
+    char name[50];
+    char destination[50];
     int seat_num;
-    char email[15];
+    char email[50];
     char seat_class;
     int price;
     struct airline *following;
@@ -112,9 +112,11 @@ void details(struct airline *reservation) {
     remove_newline(reservation->name);
     fflush(stdin);
 
-    printf("\n\t Enter your email address: ");
-    fgets(reservation->email, sizeof(reservation->email), stdin);
-    remove_newline(reservation->email);
+    char email_prefix[50];
+    printf("\n\t Enter your email address (without @gmail.com): ");
+    fgets(email_prefix, sizeof(email_prefix), stdin);
+    remove_newline(email_prefix);
+    snprintf(reservation->email, sizeof(reservation->email), "%s@gmail.com", email_prefix);
     fflush(stdin);
 
     printf("\n\t Enter the Destination: ");
@@ -122,19 +124,18 @@ void details(struct airline *reservation) {
     remove_newline(reservation->destination);
     fflush(stdin);
 
-    // Display seat class options
     printf("\n\t Seat Class Options:");
     printf("\n\t - Economy (Y): $60");
     printf("\n\t - Business (J): $150");
     printf("\n\t - First Class (Z): $300");
 
-    // Prompt for seat class
     printf("\n\t Enter seat class (Z for First Class, J for Business, Y for Economy): ");
     scanf(" %c", &reservation->seat_class);
-    reservation->seat_class = toupper(reservation->seat_class);  // Convert to uppercase
-    reservation->price = get_price(reservation->seat_class);  // Set price based on class
+    reservation->seat_class = toupper(reservation->seat_class);
+    reservation->price = get_price(reservation->seat_class);
     fflush(stdin);
 }
+
 
 int get_price(char seat_class) {
     switch (seat_class) {
@@ -335,13 +336,13 @@ void display() {
     
     stream = begin;
     while (stream != 0) {
-        printf("\n\n Passport Number : %-6s", stream->passport);
-        printf("\n         Name : %-15s", stream->name);
-        printf("\n      Email Address: %-15s", stream->email);
-        printf("\n      Seat number: %c-%d", stream->seat_class, stream->seat_num);
-        printf("\n     Destination: %-15s", stream->destination);
-        printf("\n      Seat Class: %-10c", stream->seat_class);
-        printf("\n           Price: $%d", stream->price);
+        printf("\n   Passport Number : %s", stream->passport);
+        printf("\n   Name :            %s", stream->name);
+        printf("\n   Email Address:    %s", stream->email);
+        printf("\n   Seat number:      %c-%d", stream->seat_class, stream->seat_num);
+        printf("\n   Destination:      %s", stream->destination);
+        printf("\n   Seat Class:       %c", stream->seat_class);
+        printf("\n   Price:           $%d", stream->price);
         printf("\n\n++=====================================================++");
         stream = stream->following;
     }
