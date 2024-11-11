@@ -20,9 +20,9 @@ struct airline reservations[MAX_RESERVATIONS];
 int reservation_count = 0;
 int total_revenue = 0;
 
-int seats_z[MAX_SEATS + 1] = {0};  // First class seats
-int seats_j[MAX_SEATS + 1] = {0};  // Business class seats
-int seats_y[MAX_SEATS + 1] = {0};  // Economy seats
+int seats_z[MAX_SEATS + 1] = {0};
+int seats_j[MAX_SEATS + 1] = {0};
+int seats_y[MAX_SEATS + 1] = {0};
 
 void details(struct airline *reservation);
 void reserve();
