@@ -8,45 +8,45 @@ The system also provides various functionalities such as checking seat availabil
 Key Features:
 
 1.	Reservation System:
-o	Users can book seats across three available classes: First Class, Business Class, and Economy Class.
-o	A unique passport number is used to identify each reservation, ensuring that no duplicate bookings are made.
+	Users can book seats across three available classes: First Class, Business Class, and Economy Class.
+  A unique passport number is used to identify each reservation, ensuring that no duplicate bookings are made.
 2.	Seat Availability and Status:
-o	Allows customers to check available seats in each class (First, Business, Economy).
-o	Users can check seat status by specifying the seat class and number.
+  Allows customers to check available seats in each class (First, Business, Economy).
+	Users can check seat status by specifying the seat class and number.
 3.	Pricing and Discounts:
-o	Standard pricing based on class (Economy: $60, Business: $150, First Class: $300).
-o	Discount functionality based on customer type:
+	Standard pricing based on class (Economy: $60, Business: $150, First Class: $300).
+	Discount functionality based on customer type:
 	Student: 20% discount
 	Senior: 15% discount
 	Regular: No discount
 4.	Cancel Reservation:
-o	Users can cancel their reservations by providing their passport number.
-o	Cancelling a reservation frees up the seat for future bookings.
+	Users can cancel their reservations by providing their passport number.
+	Cancelling a reservation frees up the seat for future bookings.
 5.	Revenue Tracking:
-o	Tracks and displays total revenue from all reservations.
-o	Provides insight into the financial performance of the airline through ongoing bookings.
+	Tracks and displays total revenue from all reservations.
+	Provides insight into the financial performance of the airline through ongoing bookings.
 6.	Record Search by Name:
-o	Allows customers to search for reservations by customer name.
-o	Displays detailed information including passport number, destination, seat class, and price.
+	Allows customers to search for reservations by customer name.
+	Displays detailed information including passport number, destination, seat class, and price.
 7.	Data Storage and Management:
-o	Handles up to 90 reservations and 30 seats per class.
-o	Automatically tracks and updates seat availability.
+	Handles up to 90 reservations and 30 seats per class.
+	Automatically tracks and updates seat availability.
 
 Limitations:
 
 1.	Limited Seat Capacity:
-o	The system can handle up to 30 seats per class, and a total of 90 reservations in the system. It may not scale well for larger airline operations without modifications.
+	The system can handle up to 30 seats per class, and a total of 90 reservations in the system. It may not scale well for larger airline operations without modifications.
 2.	Basic User Interface:
-o	The system operates through a console-based interface, which may not be intuitive for non-technical users.
-o	There are no GUI elements for users to interact with the system; everything is text-based.
+	The system operates through a console-based interface, which may not be intuitive for non-technical users.
+	There are no GUI elements for users to interact with the system; everything is text-based.
 3.	Single User Interaction:
-o	The system allows only a single user to interact with it at any given time. Multiple concurrent users cannot interact with the system simultaneously.
+	The system allows only a single user to interact with it at any given time. Multiple concurrent users cannot interact with the system simultaneously.
 4.	No Advanced Error Handling:
-o	The system does not handle all edge cases or potential user input errors (e.g., non-numeric input for seat selection). Additional validation could be added for better robustness.
+	The system does not handle all edge cases or potential user input errors (e.g., non-numeric input for seat selection). Additional validation could be added for better robustness.
 5.	No Persistence:
-o	All data (reservations, seat availability, revenue) is lost when the program exits. There is no integration with a database or file system for saving and restoring data.
+	All data (reservations, seat availability, revenue) is lost when the program exits. There is no integration with a database or file system for saving and restoring data.
 6.	No Advanced Search Features:
-o	Search functionality is limited to searching by name. There is no ability to search by seat class, destination, or other attributes.
+	Search functionality is limited to searching by name. There is no ability to search by seat class, destination, or other attributes.
 
 Main Menu:
 
