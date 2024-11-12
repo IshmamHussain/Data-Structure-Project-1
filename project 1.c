@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 #define MAX_SEATS 50
 #define MAX_RESERVATIONS 150
@@ -42,7 +41,7 @@ int main() {
         printf("\n\n\t\t          __|__                                                     __|__ \n");
         printf("                   --@--@--(_)--@--@--                                       --@--@--(_)--@--@-- ");
         printf("\n\t\t                                                                 ");
-        printf("\n\t\t                 	Welcome to Zenith Airways LTD                ");
+        printf("\n\t\t                 	Welcome to Fokir Marka Airlines  LTD                ");
         printf("\n\t\t ******************************************************************************************");
         printf("\n\n\n\t\t Please enter your choice from below:");
         printf("\n\n\t\t 1. Reservation");
@@ -207,9 +206,11 @@ void reserve() {
         printf("\n\t Seat: %c-%d", seat_prefix, reservations[reservation_count].seat_num);
         printf("\n\t Class: %c", reservations[reservation_count].seat_class);
         printf("\n\t Price: $%d\n", reservations[reservation_count].price);
+        
 
         reservation_count++;
         fflush(stdin);
+        printf("Press enter to continue.\n");
     }
 }
 
@@ -237,6 +238,7 @@ void show_available_seats() {
         }
     }
     printf("\n\n++=====================================================++\n");
+    printf("Press enter to continue.\n");
 }
 
 void check_seat_status(char seat_prefix, int seat_num) {
@@ -293,6 +295,7 @@ void cancel() {
             }
             reservation_count--;
             printf("Booking has been deleted.\n");
+            printf("Press enter to continue.\n");
             return;
         }
     }
@@ -304,6 +307,7 @@ void cancel() {
 void display() {
     if (reservation_count == 0) {
         printf("\n\n\t No reservations yet.\n");
+        printf("Press enter to continue.\n");
         return;
     }
     
@@ -316,9 +320,12 @@ void display() {
         printf("\n   Seat Class:       %c", reservations[i].seat_class);
         printf("\n   Price:           $%d", reservations[i].price);
         printf("\n\n++=====================================================++");
+        printf("Press enter to continue.\n");
+
     }
 }
 
 void display_revenue() {
     printf("\nTotal revenue from all reservations: $%d\n", total_revenue);
+    printf("Press enter to continue.\n");
 }
