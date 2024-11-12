@@ -42,7 +42,7 @@ int main() {
         printf("\n\n\t\t          __|__                                                     __|__ \n");
         printf("                   --@--@--(_)--@--@--                                       --@--@--(_)--@--@-- ");
         printf("\n\t\t                                                                 ");
-        printf("\n\t\t                 	Welcome to Fokir Marka Airlines  LTD                ");
+        printf("\n\t\t                 	Welcome to Zenith Airways LTD                ");
         printf("\n\t\t ******************************************************************************************");
         printf("\n\n\n\t\t Please enter your choice from below:");
         printf("\n\n\t\t 1. Reservation");
